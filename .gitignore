@@ -1,0 +1,83 @@
+# Compiled source #
+###################
+*.com
+*.class
+*.dll
+*.exe
+*.o
+*.so
+
+# Packages #
+############
+# it's better to unpack these files and commit the raw source
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+
+# Backup and temporary files #
+###############################
+*~
+*.swp
+*.bak
+*.tmp
+
+# Log files #
+#############
+*.log
+
+# Build directories #
+#####################
+build/
+bin/
+dist/
+
+# Dependency directories (adjust as needed) #
+###############################################
+node_modules/
+vendor/
+
+# OS generated files #
+######################
+.DS_Store
+Thumbs.db
+
+# Sensitive information #
+#########################
+.env
+*.key
+*.pem
+
+# Specific for crypto projects: ignore any file containing private keys or secrets #
+###################################################################################
+private*
+secret*
+credentials*
+
+// ...existing code...
+
+# LaTeX/TeX artifacts #
+######################
+*.aux
+*.bbl
+*.blg
+*.fls
+*.out
+*.toc
+*.log
+*.synctex.gz
+*.fdb_latexmk
+_minted*/
+*.pyg
+*.listing
+*.lof
+*.lot
+*.dvi
+*.xdv
+*.nav
+*.snm
+*.vrb
