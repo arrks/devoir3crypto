@@ -106,6 +106,67 @@ Pour exporter les clés publiques, on utilise la commande:
 \begin{verbatim}
     gpg --armor --output maclé.asc --export UserID
 \end{verbatim}
+Puisqu'on spécifie le UserID, par example eaj0814@umoncton.ca,
+qui à été utiliser dans les deux clés, on obtient la concaténation des deux dans un fichier.
+On remarque alors que maclé.asc est éffectivement la concaténation des deux clés publiques créer tout à l'heure.
+
+\subsection{Partie 5}
+Pour chiffrer un fichier, on utilise la commande suivante (voir figure \ref{chiffre} pour un example):
+\begin{verbatim}
+    gpg -er UserID document.txt
+\end{verbatim}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.8\textwidth]{../img/chiffre.png}
+    \caption{text clair à gauche, chiffrer à droite}
+    \label{chiffre}
+\end{figure}
+
+\subsection{Partie 6}
+Si on voulais ensuite déchiffrer ce texte, on utiliserais la commande suivant :
+\begin{verbatim}
+    gpg --output doc --decrypt doc.gpg
+\end{verbatim}
+
+\subsection{Partie 7}
+Pour signer un document et laisser le text en clair, on utilise la commande suivante (Voir la figure \ref{sign} pour example de résultat):
+\begin{verbatim}
+    gpg --clearsign document.txt
+\end{verbatim}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.8\textwidth]{../img/sign.png}
+    \caption{Document signé}
+    \label{sign}
+\end{figure}
+
+\subsection{Partie 8}
+Pour vérifier la signature, on utilise la commande suivante (voir figure \ref{verif}):
+\begin{verbatim}
+    gpg --verify document.txt.asc
+\end{verbatim}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.8\textwidth]{../img/verif.png}
+    \caption{Vérification de la signature}
+    \label{verif}
+\end{figure}
+
+\subsection{Partie 9}
+L'utilité de la signature dans ce contexte est de garantir l'intégrité du document et d'assurer que le document n'a pas été modifié depuis sa signature.
+En vérifiant la signature, on peut s'assurer que le document provient bien de la personne qui l'a signé et qu'il n'a pas été altéré.
+(voir figure \ref{verif_modif} pour un example de document modifier).
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.8\textwidth]{../img/verif_modif.png}
+    \caption{Vérification de la signature sur un document modifié, le premier mot a été enlevé}
+    \label{verif_modif}
+\end{figure}
+
 
 % Conclusion
 \section{Observation, interprétation et conclusion}
