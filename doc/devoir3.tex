@@ -71,7 +71,41 @@ On doit aussi remplir notre nom et notre courriel pour le certificat (voir \ref{
 \end{figure}
 
 \subsubsection{Partie b}
+Pour créer une paire de clé en ligne de commande, vous pouvez utiliser la commande suivante dans un terminal :
 
+\begin{verbatim}
+gpg --full-generate-key
+\end{verbatim}
+
+Cette commande lance un assistant interactif vous permettant de choisir le type de clé, la longueur (par exemple, rsa2048 ou rsa4096)
+et de renseigner les informations nécessaires (nom, adresse électronique, etc.). Une fois terminé, votre paire de clés sera générée et stockée dans votre trousseau GPG (voir figure \ref{newKey_cli}).
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.8\textwidth]{../img/newKey_cli.png}
+    \caption{Création de clés à l'aide de la ligne de commande}
+    \label{newKey_cli}
+\end{figure}
+
+\subsection{Partie 3}
+Pour Lister notre trousseau de clés, on peut utiliser la commande suivante:
+\begin{verbatim}
+    gpg --list-keys
+\end{verbatim}
+En exécutant la commande on appercois les deux clés créers précédément (voir figure \ref{listKeys}).
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.8\textwidth]{../img/listKeys.png}
+    \caption{Liste des clés}
+    \label{listKeys}
+\end{figure}
+
+\subsection{Partie 4}
+Pour exporter les clés publiques, on utilise la commande:
+\begin{verbatim}
+    gpg --armor --output maclé.asc --export UserID
+\end{verbatim}
 
 % Conclusion
 \section{Observation, interprétation et conclusion}
