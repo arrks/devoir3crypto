@@ -6,6 +6,8 @@
 \usepackage{geometry}
 \usepackage{hyperref}
 \usepackage[all]{hypcap}
+\usepackage{enumitem}
+\usepackage{fancyvrb}
 
 \geometry{margin=2.5cm}
 
@@ -156,6 +158,7 @@ Pour vérifier la signature, on utilise la commande suivante (voir figure \ref{v
 \end{figure}
 
 \subsection{Partie 9}
+\subsubsection{Partie a}
 L'utilité de la signature dans ce contexte est de garantir l'intégrité du document et d'assurer que le document n'a pas été modifié depuis sa signature.
 En vérifiant la signature, on peut s'assurer que le document provient bien de la personne qui l'a signé et qu'il n'a pas été altéré.
 (voir figure \ref{verif_modif} pour un example de document modifier).
@@ -165,6 +168,166 @@ En vérifiant la signature, on peut s'assurer que le document provient bien de l
     \includegraphics[width=0.8\textwidth]{../img/verif_modif.png}
     \caption{Vérification de la signature sur un document modifié, le premier mot a été enlevé}
     \label{verif_modif}
+\end{figure}
+
+\subsubsection{Partie b - Communication avec un camarade de classe}
+\begin{enumerate}[label=\Roman*]
+    \item Exporter votre clé publique. L'envoyer à un camarade de classe. J'ai réutiliser la commande suivante:
+          \begin{verbatim}
+        gpg --armor --output maclé.asc --export UserID
+    \end{verbatim}
+          J'ai ensuite envoyer le fichier maclé.asc à mon camarade de classe par courriel.
+
+    \item Récupérer la clé publique de votre camarade et l'importer dans votre base de clés.
+          Pour se faire j'ai utiliser la commande suivante (voir figure \ref{import}):
+          \begin{verbatim}
+        gpg --import maclé.asc
+    \end{verbatim}
+
+          \begin{figure}[ht]
+              \centering
+              \includegraphics[width=0.8\textwidth]{../img/importCle.png}
+              \caption{Importation de la clé publique de mon camarade}
+              \label{import}
+          \end{figure}
+
+
+    \item Visualiser votre base de clés.
+          Pour se faire j'ai utiliser la commande suivante:
+          \begin{verbatim}
+        gpg --list-keys
+    \end{verbatim}
+          On remarque que la clé de mon camarade a bien été importer (voir figure \ref{listKeysSimon}).
+
+          \begin{figure}[ht]
+              \centering
+              \includegraphics[width=0.8\textwidth]{../img/listKeysSimon.png}
+              \caption{Liste des clés après importation de la clé publique de mon camarade}
+              \label{listKeysSimon}
+          \end{figure}
+
+    \item Chiffrer un message à destination d'un camarade et lui envoyer.
+          Pour se faire j'ai utiliser la commande suivante:
+          \begin{verbatim}
+            gpg -er UserID paragraphe.txt
+          \end{verbatim}
+          J'ai ensuite envoyer le fichier paragraphe.txt.gpg à mon camarade de classe par discord.
+
+    \item Déchiffrer un message reçu d'un camarade.
+          Pour se faire j'ai utiliser la commande suivante (Voir figure \ref{dechiffrer}):
+          \begin{verbatim}
+            gpg --decrypt doc.gpg
+            \end{verbatim}
+
+          \begin{figure}[ht]
+              \centering
+              \includegraphics[width=0.8\textwidth]{../img/dechiffrer.png}
+              \caption{Déchiffrement du message de mon camarade}
+              \label{dechiffrer}
+          \end{figure}
+
+    \item Calculer la signature électronique d'un message et l'expédier à un camarade.
+          Pour se faire j'ai utiliser la commande suivante:
+          \begin{verbatim}
+                gpg --clearsign paragraphe.txt
+            \end{verbatim}
+          J'ai ensuite envoyer le fichier paragraphe.txt.asc à mon camarade de classe par discord.
+
+    \item Récupérer un message signé d'un camarade et vérifier sa provenance/intégrité.
+          Après avoir reçu le message signé de mon camarade, j'ai utiliser la commande suivante pour vérifier la signature:
+          \begin{verbatim}
+                gpg --verify paragraphe.txt.asc
+            \end{verbatim}
+          On remarque que le message a bien été signé par mon camarade (voir figure \ref{verifSimon}).
+
+          \begin{figure}[ht]
+              \centering
+              \includegraphics[width=0.8\textwidth]{../img/verifSimon.png}
+              \caption{Vérification de la signature du message de mon camarade}
+              \label{verifSimon}
+          \end{figure}
+\end{enumerate}
+
+\subsection{Partie 10}
+Pour créer un certificat à l'aide de openssl, on utilisera la commande suivante:
+\begin{Verbatim}[fontsize=\footnotesize]
+    openssl req -newkey rsa:2048 -keyout domain.key -out domain.csr
+\end{Verbatim}
+
+Disecton cette commande (voir figure \ref{opensslCert} pour la sortie):
+\begin{itemize}
+    \item \texttt{openssl req} : Indique que nous voulons créer une demande de certificat.
+    \item \texttt{-newkey rsa:2048} : Crée une nouvelle clé RSA de 2048 bits.
+    \item \texttt{-keyout domain.key} : Spécifie le fichier de sortie pour la clé privée.
+    \item \texttt{-out domain.csr} : Spécifie le fichier de sortie pour la demande de signature de certificat (CSR).
+    \item \texttt{-days 365} : Définit la durée de validité du certificat à 365 jours.
+    \item \texttt{-sha256} : Utilise l'algorithme de hachage SHA-256 pour le certificat.
+\end{itemize}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.8\textwidth]{../img/opensslCert.png}
+    \caption{Création d'un certificat avec OpenSSL}
+    \label{opensslCert}
+\end{figure}
+
+Cette commande génère deux fichiers :
+\begin{itemize}
+    \item \texttt{domain.key} : La clé privée.
+    \item \texttt{domain.csr} : La demande de signature de certificat (CSR).
+\end{itemize}
+
+Normalement, ce serait à une autorité de certification (CA) de signer le certificat,
+mais pour les besoins de ce TP, nous allons le signer nous-mêmes.
+
+\subsection{Partie 11}
+Pour signer le certificat avec la clé privée, on utilise la commande suivante:
+\begin{Verbatim}[fontsize=\footnotesize]
+    openssl x509 -signkey domain.key -in domain.csr -req -days 365 -out domain.crt
+\end{Verbatim}
+
+Disecton cette commande (voir figure \ref{opensslCertSign} pour la sortie):
+\begin{itemize}
+    \item \texttt{openssl x509} : Indique que nous voulons travailler avec des certificats X.509.
+    \item \texttt{-signkey domain.key} : Spécifie la clé privée à utiliser pour signer le certificat.
+    \item \texttt{-in domain.csr} : Spécifie le fichier d'entrée (CSR) à signer.
+    \item \texttt{-req} : Indique que nous travaillons avec une demande de signature de certificat.
+    \item \texttt{-days 365} : Définit la durée de validité du certificat à 365 jours.
+    \item \texttt{-out domain.crt} : Spécifie le fichier de sortie pour le certificat signé.
+\end{itemize}
+
+Cette commande génère un fichier \texttt{domain.crt} qui contient le certificat signé.
+Ce certificat peut être utilisé pour établir des connexions sécurisées (SSL/TLS) sur un serveur web.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.8\textwidth]{../img/opensslCertSign.png}
+    \caption{Signature d'un certificat avec OpenSSL}
+    \label{opensslCertSign}
+\end{figure}
+
+\subsection{Partie 12}
+Pour vérifier le certificat, on utilise la commande suivante:
+\begin{Verbatim}[fontsize=\footnotesize]
+    openssl x509 -text -noout -in domain.crt
+\end{Verbatim}
+
+Disecton cette commande (voir figure \ref{opensslCertVerif} pour la sortie):
+\begin{itemize}
+    \item \texttt{openssl x509} : Indique que nous voulons travailler avec des certificats X.509.
+    \item \texttt{-text} : Affiche les informations du certificat de manière lisible.
+    \item \texttt{-noout} : N'affiche pas le contenu brut du certificat.
+    \item \texttt{-in domain.crt} : Spécifie le fichier d'entrée (certificat) à vérifier.
+\end{itemize}
+
+Cette commande affiche les informations du certificat,
+y compris le nom du sujet, la clé publique, la période de validité et d'autres détails.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.8\textwidth]{../img/opensslCertVerif.png}
+    \caption{Vérification d'un certificat avec OpenSSL}
+    \label{opensslCertVerif}
 \end{figure}
 
 
