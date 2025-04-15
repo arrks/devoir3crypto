@@ -330,6 +330,41 @@ y compris le nom du sujet, la clé publique, la période de validité et d'autre
     \label{opensslCertVerif}
 \end{figure}
 
+\subsection{Partie 13}
+Git est un système de contrôle de version distribué qui permet de suivre
+les modifications apportées à des fichiers et de collaborer avec d'autres personnes.
+On est aussi capable de signer nos commits avec notre clé privée GPG.
+Pour se faire, on doit d'abord configurer git pour utiliser notre clé GPG.
+
+Premièrement, on doit lsiter nos clés GPG pour trouver l'ID de notre clé publique.
+Ensuite, on doit configurer git pour utiliser cette clé avec les commandes suivantes:
+\begin{verbatim}
+    git config --global user.signingkey <ID de la clé>
+    git config --global commit.gpgsign true
+\end{verbatim}
+
+Ensuite, on peut signer nos commits avec la commande suivante:
+\begin{verbatim}
+    git commit -S -m "Message de commit"
+\end{verbatim}
+
+Le -S indique à git de signer le commit avec notre clé GPG.
+On peut vérifier la signature du commit avec la commande suivante:
+\begin{verbatim}
+    git log --show-signature
+\end{verbatim}
+
+On devra aussi s'assurer que notre clé publique est disponible sur github pour que les autres
+pouvent vérifier la signature de nos commits.
+Pour ajouter notre clé publique à github, on doit se rendre dans les paramètres de notre compte,
+aller dans la section "SSH and GPG keys" et cliquer sur "New GPG key" (voir figure \ref{gitGPG}).
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.8\textwidth]{../img/gitGPG.png}
+    \caption{Ajout de la clé publique à GitHub}
+    \label{gitGPG}
+\end{figure}
 
 % Conclusion
 \section{Observation, interprétation et conclusion}
